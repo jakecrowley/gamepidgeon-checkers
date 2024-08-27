@@ -54,8 +54,17 @@ public partial class CheckersBoardTop : Sprite2D
 		// newPiece.Visible = true;
 	}
 
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
-	{
+	public override void _Input(InputEvent @event) {
+		// Mouse in viewport coordinates.
+		if (@event is InputEventMouseButton eventMouseButton) {
+			if(eventMouseButton.IsPressed()) {
+				int x = 7 - (int)Math.Ceiling(eventMouseButton.Position.X / 80);
+				int y = 7 - ((int)Math.Ceiling(eventMouseButton.Position.Y / 80) - 3);
+				GD.Print("board position at ", x, ",", y, " clicked");
+			}
+		}
 	}
+
+	// Called every frame. 'delta' is the elapsed time since the previous frame.
+	public override void _Process(double delta){}
 }

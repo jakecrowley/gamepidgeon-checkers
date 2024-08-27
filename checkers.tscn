@@ -1,9 +1,11 @@
-[gd_scene load_steps=8 format=3 uid="uid://cnrr1hwlmd565"]
+[gd_scene load_steps=10 format=3 uid="uid://cnrr1hwlmd565"]
 
 [ext_resource type="Texture2D" uid="uid://c04pqvth7jxny" path="res://checkers_board_top.jpg" id="1_bpdws"]
 [ext_resource type="Script" path="res://CheckersBoardTop.cs" id="2_aedv0"]
 [ext_resource type="Texture2D" uid="uid://duoyebvdp2m53" path="res://checker_black.png" id="2_nlcs0"]
 [ext_resource type="Texture2D" uid="uid://c8rkim5ojkkq8" path="res://checker_red.png" id="2_t0jlu"]
+[ext_resource type="Script" path="res://BoardHighlight.cs" id="5_vqlg8"]
+[ext_resource type="Script" path="res://HighlightChild.cs" id="6_eotbd"]
 
 [sub_resource type="Gradient" id="Gradient_q1lfo"]
 interpolation_mode = 2
@@ -40,16 +42,23 @@ position = Vector2(-472.312, -472.312)
 scale = Vector2(0.05, 0.05)
 texture = ExtResource("2_nlcs0")
 
-[node name="PointLight2D" type="PointLight2D" parent="CheckersBoardTop"]
-position = Vector2(-67.318, 202.5)
-scale = Vector2(1.45082, 1.45474)
+[node name="BoardHighlight" type="Node" parent="CheckersBoardTop"]
+script = ExtResource("5_vqlg8")
+metadata/Energy = 16.0
+metadata/Position = Vector2(40, 282)
+
+[node name="HighlightX" type="PointLight2D" parent="CheckersBoardTop/BoardHighlight"]
+position = Vector2(283.609, 686.5)
+scale = Vector2(0.870492, 0.872844)
 energy = 16.0
 texture = SubResource("GradientTexture2D_2v7vs")
 texture_scale = 1.45
+script = ExtResource("6_eotbd")
 
-[node name="PointLight2D2" type="PointLight2D" parent="CheckersBoardTop"]
-position = Vector2(-67.3179, 202.5)
-scale = Vector2(1.45082, 1.45474)
+[node name="HighlightY" type="PointLight2D" parent="CheckersBoardTop/BoardHighlight"]
+position = Vector2(39, 282)
+scale = Vector2(0.870492, 0.872844)
 energy = 16.0
 texture = SubResource("GradientTexture2D_xghwu")
 texture_scale = 1.45
+script = ExtResource("6_eotbd")
