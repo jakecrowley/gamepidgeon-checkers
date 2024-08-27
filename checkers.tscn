@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=3 uid="uid://cnrr1hwlmd565"]
+
+[ext_resource type="Texture2D" uid="uid://c04pqvth7jxny" path="res://checkers_board_top.jpg" id="1_bpdws"]
+[ext_resource type="Script" path="res://CheckersBoardTop.cs" id="2_aedv0"]
+[ext_resource type="Texture2D" uid="uid://duoyebvdp2m53" path="res://checker_black.png" id="2_nlcs0"]
+[ext_resource type="Texture2D" uid="uid://c8rkim5ojkkq8" path="res://checker_red.png" id="2_t0jlu"]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="CheckersBoardTop" type="Sprite2D" parent="."]
+position = Vector2(324, 565)
+scale = Vector2(0.6, 0.6)
+texture = ExtResource("1_bpdws")
+script = ExtResource("2_aedv0")
+
+[node name="CheckerPieceRed" type="Sprite2D" parent="CheckersBoardTop"]
+visible = false
+position = Vector2(-472.312, -472.312)
+scale = Vector2(0.05, 0.05)
+texture = ExtResource("2_t0jlu")
+
+[node name="CheckerPieceBlack" type="Sprite2D" parent="CheckersBoardTop"]
+visible = false
+position = Vector2(-472.312, -472.312)
+scale = Vector2(0.05, 0.05)
+texture = ExtResource("2_nlcs0")
