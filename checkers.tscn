@@ -1,9 +1,24 @@
-[gd_scene load_steps=5 format=3 uid="uid://cnrr1hwlmd565"]
+[gd_scene load_steps=8 format=3 uid="uid://cnrr1hwlmd565"]
 
 [ext_resource type="Texture2D" uid="uid://c04pqvth7jxny" path="res://checkers_board_top.jpg" id="1_bpdws"]
 [ext_resource type="Script" path="res://CheckersBoardTop.cs" id="2_aedv0"]
 [ext_resource type="Texture2D" uid="uid://duoyebvdp2m53" path="res://checker_black.png" id="2_nlcs0"]
 [ext_resource type="Texture2D" uid="uid://c8rkim5ojkkq8" path="res://checker_red.png" id="2_t0jlu"]
+
+[sub_resource type="Gradient" id="Gradient_q1lfo"]
+interpolation_mode = 2
+offsets = PackedFloat32Array(0.461039, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_2v7vs"]
+gradient = SubResource("Gradient_q1lfo")
+fill_from = Vector2(0.490826, 0.527523)
+fill_to = Vector2(0, 0)
+repeat = 2
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_xghwu"]
+gradient = SubResource("Gradient_q1lfo")
+fill_from = Vector2(0.495413, 0.522936)
+repeat = 2
 
 [node name="Node2D" type="Node2D"]
 
@@ -24,3 +39,17 @@ visible = false
 position = Vector2(-472.312, -472.312)
 scale = Vector2(0.05, 0.05)
 texture = ExtResource("2_nlcs0")
+
+[node name="PointLight2D" type="PointLight2D" parent="CheckersBoardTop"]
+position = Vector2(-67.318, 202.5)
+scale = Vector2(1.45082, 1.45474)
+energy = 16.0
+texture = SubResource("GradientTexture2D_2v7vs")
+texture_scale = 1.45
+
+[node name="PointLight2D2" type="PointLight2D" parent="CheckersBoardTop"]
+position = Vector2(-67.3179, 202.5)
+scale = Vector2(1.45082, 1.45474)
+energy = 16.0
+texture = SubResource("GradientTexture2D_xghwu")
+texture_scale = 1.45
