@@ -1,13 +1,11 @@
-[gd_scene load_steps=13 format=3 uid="uid://cnrr1hwlmd565"]
+[gd_scene load_steps=11 format=3 uid="uid://cnrr1hwlmd565"]
 
 [ext_resource type="Texture2D" uid="uid://d37tvmulfubj4" path="res://checkersboard_plain.png" id="1_ys403"]
 [ext_resource type="Script" path="res://checkers_board_top.gd" id="2_3slu2"]
 [ext_resource type="Texture2D" uid="uid://duoyebvdp2m53" path="res://checker_black.png" id="2_nlcs0"]
 [ext_resource type="Texture2D" uid="uid://c8rkim5ojkkq8" path="res://checker_red.png" id="2_t0jlu"]
 [ext_resource type="Script" path="res://board_highlight.gd" id="5_1kvqq"]
-[ext_resource type="Script" path="res://HighlightChild.cs" id="6_eotbd"]
 [ext_resource type="Script" path="res://highlight_child.gd" id="6_srtqa"]
-[ext_resource type="Script" path="res://ButtonClick.cs" id="7_pcqay"]
 [ext_resource type="Script" path="res://button_click.gd" id="9_14sfn"]
 
 [sub_resource type="Gradient" id="Gradient_q1lfo"]
@@ -71,7 +69,7 @@ range_z_max = 0
 texture = SubResource("GradientTexture2D_xghwu")
 texture_scale = 1.45
 height = 1000.0
-script = ExtResource("6_eotbd")
+script = ExtResource("6_srtqa")
 
 [node name="SendButton" type="Button" parent="."]
 offset_left = 171.0
@@ -81,7 +79,7 @@ offset_bottom = 1027.0
 disabled = true
 text = "Send
 "
-script = ExtResource("7_pcqay")
+script = ExtResource("9_14sfn")
 
 [node name="UndoButton" type="Button" parent="."]
 offset_left = 385.0
