@@ -16,5 +16,6 @@ public partial class HighlightChild : PointLight2D
 	{
 		Energy = (float)parent.GetMeta("Energy");
 		Position = (Vector2)parent.GetMeta("Position");
+		Visible = (bool)parent.GetMeta("Visible");
 	}
 }
