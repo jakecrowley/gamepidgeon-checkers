@@ -80,8 +80,10 @@ func _ready() -> void:
 			var newPos = Vector2(redPiece.position.x + (135 * int(movePos[2])), redPiece.position.y + (135 * (7 - int(movePos[3]))))
 			tween.tween_property(movedPiece, "position", newPos, 1.0).set_trans(Tween.TRANS_SINE)
 			movedPiece.name = movePos[2] + "," + movePos[3];
+			var color = get_piece_color(movedPiece)
+			if (color == "black" and int(movePos[3]) == 7) or (color == "red" and int(movePos[3]) == 0):
+				tween.tween_callback(set_checker_king.bind(movedPiece, color))
 			if moveType == "attack":
-				print("jump deez nuts idiot")
 				jump_piece(int(movePos[0]), int(movePos[1]), int(movePos[2]), int(movePos[3]))
 
 func _set_replay(new_replay: String):
@@ -118,7 +120,6 @@ func jump_piece(prevX: int, prevY: int, newX: int, newY: int):
 	var x_step = 1 if newX > prevX else -1
 	var y_step = 1 if newY > prevY else -1
 	var jumpedPiece: Sprite2D = get_node_or_null(str(prevX + x_step) + "," + str(prevY + y_step))
-	print("jump deez nuts" + str(prevX + x_step) + "," + str(prevY + y_step))
 	if jumpedPiece != null:
 		var tween = jumpedPiece.get_tree().create_tween()
 		var modulate_color = jumpedPiece.self_modulate
