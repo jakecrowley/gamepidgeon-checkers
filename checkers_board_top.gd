@@ -36,6 +36,8 @@ func _ready() -> void:
 	if replay == null or player == null:
 		return
 		
+	get_node("P" + str(player) + "Label").set_text("You")
+		
 	redPiece = get_node("CheckerPieceRed")
 	var blackPiece: Sprite2D = get_node("CheckerPieceBlack")
 	boardHighlight = get_node("BoardHighlight")
@@ -69,17 +71,18 @@ func _ready() -> void:
 				add_child(newPiece)
 				print(newPiece.name, " : ", newPiece.position)
 				
-				if replayMoves.size() > 0:
-					var tween = newPiece.get_tree().create_tween()
-					for move in replayMoves:
-						var moveType = move.split(':')[0]
-						var movePos = move.split(':')[1].split(',')
-						if newPiece.name == movePos[0] + ',' + movePos[1]:
-							var newPos = Vector2(redPiece.position.x + (135 * int(movePos[2])), redPiece.position.y + (135 * (7 - int(movePos[3]))))
-							tween.tween_property(newPiece, "position", newPos, 1.0).set_trans(Tween.TRANS_SINE)
-							newPiece.name = movePos[2] + "," + movePos[3];
-							if moveType == "attack":
-								jump_piece(int(movePos[0]), int(movePos[1]), int(movePos[2]), int(movePos[3]))
+	for move in replayMoves:
+		var moveType = move.split(':')[0]
+		var movePos = move.split(':')[1].split(',')
+		var movedPiece = get_node_or_null(movePos[0] + ',' + movePos[1])
+		if movedPiece != null:
+			var tween = movedPiece.get_tree().create_tween()
+			var newPos = Vector2(redPiece.position.x + (135 * int(movePos[2])), redPiece.position.y + (135 * (7 - int(movePos[3]))))
+			tween.tween_property(movedPiece, "position", newPos, 1.0).set_trans(Tween.TRANS_SINE)
+			movedPiece.name = movePos[2] + "," + movePos[3];
+			if moveType == "attack":
+				print("jump deez nuts idiot")
+				jump_piece(int(movePos[0]), int(movePos[1]), int(movePos[2]), int(movePos[3]))
 
 func _set_replay(new_replay: String):
 	player = int(new_replay.substr(7, 1))
@@ -115,6 +118,7 @@ func jump_piece(prevX: int, prevY: int, newX: int, newY: int):
 	var x_step = 1 if newX > prevX else -1
 	var y_step = 1 if newY > prevY else -1
 	var jumpedPiece: Sprite2D = get_node_or_null(str(prevX + x_step) + "," + str(prevY + y_step))
+	print("jump deez nuts" + str(prevX + x_step) + "," + str(prevY + y_step))
 	if jumpedPiece != null:
 		var tween = jumpedPiece.get_tree().create_tween()
 		var modulate_color = jumpedPiece.self_modulate
