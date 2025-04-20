@@ -17,6 +17,7 @@ var clickedPiecePos: Vector2
 var moves: Array[Vector2]
 var has_moved: bool = false
 var prev_move: Array[Vector2]
+var prev_jump: Sprite2D = null
 
 var has_connected = false
 
@@ -78,7 +79,7 @@ func _ready() -> void:
 		if movedPiece != null:
 			var tween = movedPiece.get_tree().create_tween()
 			var newPos = Vector2(redPiece.position.x + (135 * int(movePos[2])), redPiece.position.y + (135 * (7 - int(movePos[3]))))
-			tween.tween_property(movedPiece, "position", newPos, 1.0).set_trans(Tween.TRANS_SINE)
+			tween.tween_property(movedPiece, "position", newPos, 0.5).set_trans(Tween.TRANS_SINE)
 			movedPiece.name = movePos[2] + "," + movePos[3];
 			var color = get_piece_color(movedPiece)
 			if (color == "black" and int(movePos[3]) == 7) or (color == "red" and int(movePos[3]) == 0):
@@ -124,8 +125,9 @@ func jump_piece(prevX: int, prevY: int, newX: int, newY: int):
 		var tween = jumpedPiece.get_tree().create_tween()
 		var modulate_color = jumpedPiece.self_modulate
 		modulate_color.a = 0.0
-		tween.tween_property(jumpedPiece, "self_modulate", modulate_color, 1.0).set_trans(Tween.TRANS_LINEAR)
-		jumpedPiece.name = "jumped"
+		tween.tween_property(jumpedPiece, "self_modulate", modulate_color, 0.5).set_trans(Tween.TRANS_LINEAR)
+		jumpedPiece.name = str(prevX + x_step) + "," + str(prevY + y_step) + "_jumped"
+		prev_jump = jumpedPiece
 
 func move_piece(piece: Sprite2D, x: int, y: int):
 	var newPos = Vector2(redPiece.position.x + (135 * x), redPiece.position.y + (135 * y))
@@ -200,6 +202,12 @@ func gen_moves():
 func undo_move():
 	var piece: Sprite2D = get_node(str(prev_move[1].x) + "," + str(prev_move[1].y))
 	move_piece(piece, prev_move[0].x, abs(prev_move[0].y - 7))
+	if prev_jump != null:
+		var tween = prev_jump.get_tree().create_tween()
+		var modulate_color = prev_jump.self_modulate
+		modulate_color.a = 1.0
+		tween.tween_property(prev_jump, "self_modulate", modulate_color, 0.5).set_trans(Tween.TRANS_LINEAR)
+		prev_jump.name = prev_jump.name.split("_")[0]
 	has_moved = false
 	(get_node("../UndoButton") as Button).disabled = true
 	(get_node("../SendButton") as Button).disabled = true
