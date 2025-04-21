@@ -72,20 +72,22 @@ func _ready() -> void:
 				add_child(newPiece)
 				print(newPiece.name, " : ", newPiece.position)
 				
-	for move in replayMoves:
-		var moveType = move.split(':')[0]
-		var movePos = move.split(':')[1].split(',')
-		var movedPiece = get_node_or_null(movePos[0] + ',' + movePos[1])
+	if len(replayMoves) > 0:
+		var firstMovePos = replayMoves[0].split(':')[1].split(',')
+		var movedPiece = get_node_or_null(firstMovePos[0] + ',' + firstMovePos[1])
 		if movedPiece != null:
 			var tween = movedPiece.get_tree().create_tween()
-			var newPos = Vector2(redPiece.position.x + (135 * int(movePos[2])), redPiece.position.y + (135 * (7 - int(movePos[3]))))
-			tween.tween_property(movedPiece, "position", newPos, 0.5).set_trans(Tween.TRANS_SINE)
-			movedPiece.name = movePos[2] + "," + movePos[3];
-			var color = get_piece_color(movedPiece)
-			if (color == "black" and int(movePos[3]) == 7) or (color == "red" and int(movePos[3]) == 0):
-				tween.tween_callback(set_checker_king.bind(movedPiece, color))
-			if moveType == "attack":
-				jump_piece(int(movePos[0]), int(movePos[1]), int(movePos[2]), int(movePos[3]))
+			for i in range(len(replayMoves)):
+				var moveType = replayMoves[i].split(':')[0]
+				var movePos = replayMoves[i].split(':')[1].split(',')
+				var newPos = Vector2(redPiece.position.x + (135 * int(movePos[2])), redPiece.position.y + (135 * (7 - int(movePos[3]))))
+				tween.tween_property(movedPiece, "position", newPos, 0.5).set_trans(Tween.TRANS_SINE)
+				movedPiece.name = movePos[2] + "," + movePos[3];
+				var color = get_piece_color(movedPiece)
+				if (color == "black" and int(movePos[3]) == 7) or (color == "red" and int(movePos[3]) == 0):
+					tween.tween_callback(set_checker_king.bind(movedPiece, color))
+				if moveType == "attack":
+					jump_piece(int(movePos[0]), int(movePos[1]), int(movePos[2]), int(movePos[3]), i*0.5)
 
 func _set_replay(new_replay: String):
 	player = int(new_replay.substr(7, 1))
@@ -117,7 +119,7 @@ func export_replay() -> String:
 	
 	return replay.split('|')[2] + "|move:" + str(prev_move[0].x) + "," + str(prev_move[0].y) + "," + str(prev_move[1].x) + "," + str(prev_move[1].y) + "|board:" + boardStr.substr(0, boardStr.length()-1)
 	
-func jump_piece(prevX: int, prevY: int, newX: int, newY: int):
+func jump_piece(prevX: int, prevY: int, newX: int, newY: int, delay: float = 0.0):
 	var x_step = 1 if newX > prevX else -1
 	var y_step = 1 if newY > prevY else -1
 	var jumpedPiece: Sprite2D = get_node_or_null(str(prevX + x_step) + "," + str(prevY + y_step))
@@ -125,6 +127,7 @@ func jump_piece(prevX: int, prevY: int, newX: int, newY: int):
 		var tween = jumpedPiece.get_tree().create_tween()
 		var modulate_color = jumpedPiece.self_modulate
 		modulate_color.a = 0.0
+		tween.tween_interval(delay)
 		tween.tween_property(jumpedPiece, "self_modulate", modulate_color, 0.5).set_trans(Tween.TRANS_LINEAR)
 		jumpedPiece.name = str(prevX + x_step) + "," + str(prevY + y_step) + "_jumped"
 		prev_jump = jumpedPiece
