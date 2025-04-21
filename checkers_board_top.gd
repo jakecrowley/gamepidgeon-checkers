@@ -63,8 +63,6 @@ func _ready() -> void:
 	# WTF gamepigeon, sometimes you just don't send the moves????
 	if len(replayMoves) == 0 && prevBoard != nextBoard:
 		prevBoard = nextBoard
-		
-	print(replayMoves)
 	
 	for y in range(0, 8):
 		for x in range(0, 8):
@@ -100,10 +98,10 @@ func _ready() -> void:
 					jump_piece(int(movePos[0]), int(movePos[1]), int(movePos[2]), int(movePos[3]), i*0.5)
 
 func _set_replay(new_replay: String):
-	player = int(new_replay.substr(7, 1))
-	replay = new_replay.substr(9)
-	#player = 2
-	#replay = "board:0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,2,0,2,0,2,0,2,2,0,2,0,0,0,0,0,0,0,0,1,0,1,0,1,1,0,0,0,1,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1,0|move:5,4,6,3|board:0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,2,0,2,0,2,0,2,2,0,2,0,0,0,1,0,0,0,0,1,0,0,0,1,1,0,0,0,1,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1,0"
+	#player = int(new_replay.substr(7, 1))
+	#replay = new_replay.substr(9)
+	player = 2
+	replay = "board:0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,2,0,2,0,2,0,2,2,0,2,0,0,0,0,0,0,0,0,1,0,1,0,1,1,0,0,0,1,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1,0|move:5,4,6,3|board:0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,2,0,2,0,2,0,2,2,0,2,0,0,0,1,0,0,0,0,1,0,0,0,1,1,0,0,0,1,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1,0"
 	_ready()
 
 func export_replay() -> String:
@@ -223,7 +221,7 @@ func gen_moves():
 					continue
 				moves.append(pos)
 				add_highlight(pos.x, 7 - pos.y)
-			elif !check_player(piece): #check for jumps
+			elif !check_player(piece) and len(prev_moves)/2 == len(prev_jumps): #only allow jump if the last move was a jump
 				var x_step = 1 if pos.x > clickedPiecePos.x else -1
 				var y_step = 1 if pos.y > clickedPiecePos.y else -1
 				var newPos = Vector2(pos.x + x_step, pos.y + y_step)
