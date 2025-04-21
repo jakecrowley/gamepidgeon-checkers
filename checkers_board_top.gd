@@ -105,9 +105,15 @@ func export_replay() -> String:
 			if piece != null:
 				var color = get_piece_color(piece)
 				if color == "red":
-					board[(7 - y) * 8 + x] = "1"
+					if is_checker_king(piece):
+						board[(7 - y) * 8 + x] = "3"
+					else:
+						board[(7 - y) * 8 + x] = "1"
 				elif color == "black":
-					board[(7 - y) * 8 + x] = "2"
+					if is_checker_king(piece):
+						board[(7 - y) * 8 + x] = "4"
+					else:
+						board[(7 - y) * 8 + x] = "2"
 	
 	var boardStr: String
 	for val in board:
